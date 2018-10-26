@@ -1,6 +1,5 @@
 package com.itheima.crm.service.impl;
 
-import com.itheima.crm.dao.CustomerDao;
 import com.itheima.crm.dao.impl.CustomerDaoImpl;
 import com.itheima.crm.domain.Customer;
 import com.itheima.crm.domain.PageBean;
