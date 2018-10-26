@@ -8,15 +8,22 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
+import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 
+
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer>{
     private Customer customer = new Customer();
+
+    public static final Logger logger = LoggerFactory.getLogger(CustomerAction.class);
+
     @Override
     public Customer getModel() {
         return customer;
@@ -89,7 +96,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
     }
 
     public String findAll(){
-         System.out.println(this);
+        logger.info("用户查询列表接口"+ JSONObject.fromObject(customer));
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Customer.class);
         if (customer.getCust_name() != null && !"".equals(customer.getCust_name())){
             detachedCriteria.add(Restrictions.like(
@@ -104,15 +111,16 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
         if (customer.getBaseDictLevel() != null) {
             if (customer.getBaseDictLevel().getDict_id() != null && !"".equals(customer.getBaseDictLevel().getDict_id())){
                 detachedCriteria.add(Restrictions.eq(
-                        "getBaseDictLevel.dict_id",customer.getBaseDictLevel().getDict_id()));
+                        "baseDictLevel.dict_id",customer.getBaseDictLevel().getDict_id()));
             }
         }
         if (customer.getBaseDictIndustry() != null) {
             if (customer.getBaseDictIndustry().getDict_id() != null && !"".equals(customer.getBaseDictIndustry().getDict_id())){
                 detachedCriteria.add(Restrictions.eq(
-                        "getBaseDictIndustry.dict_id",customer.getBaseDictIndustry().getDict_id()));
+                        "baseDictIndustry.dict_id",customer.getBaseDictIndustry().getDict_id()));
             }
         }
+        logger.info(JSONObject.fromObject(detachedCriteria)+"");
         PageBean<Customer> pageBean = customerService.findByPage(detachedCriteria,currPage,pageSize);
         ActionContext.getContext().getValueStack().push(pageBean);
         return "findAll";

@@ -45,7 +45,7 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<bean id="customerAction" class="com.itheima.crm.web.action.CustomerAction">
+	<bean id="customerAction" class="com.itheima.crm.web.action.CustomerAction" scope="prototype">
 		<property name="customerService" ref="customerService"/>
 	</bean>
 	<bean id="customerService" class="com.itheima.crm.service.impl.CustomerServiceImpl">

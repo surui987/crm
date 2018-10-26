@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,19 +15,19 @@
             // 页面加载函数就会执行：
             // 页面加载，异步查询字典数据：
             // 加载客户来源
-            $.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"002"},function(data){
-                // 遍历json的数据:
-                $(data).each(function(i,n){
-                    $("#cust_source").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
-                });
-                $("#cust_source option[value='${model.baseDictSource.dict_id}']").prop("selected","selected");
-            },"json");
             $.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"006"},function(data){
                 // 遍历json的数据:
                 $(data).each(function(i,n){
                     $("#cust_level").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
                 });
                 $("#cust_level option[value='${model.baseDictLevel.dict_id}']").prop("selected","selected");
+            },"json");
+            $.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"002"},function(data){
+                // 遍历json的数据:
+                $(data).each(function(i,n){
+                    $("#cust_source").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>");
+                });
+                $("#cust_source option[value='${model.baseDictSource.dict_id}']").prop("selected","selected");
             },"json");
             $.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"001"},function(data){
                 // 遍历json的数据:
@@ -91,13 +91,7 @@
 													<TD>客户名称：</TD>
 													<TD>
 														<INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="cust_name" value="<s:property value="model.cust_name"/> ">
-													</TD>
-													<TD>客户来源：</TD>
-													<TD>
-														<select id="cust_source" name="baseDictSource.dict_id">
-															<option value="">-请选择-</option>
-														</select>
+														style="WIDTH: 80px" maxLength=50 name="cust_name" value="<s:property value="model.cust_name"/>">
 													</TD>
 													<TD>客户级别：</TD>
 													<TD>
@@ -105,6 +99,12 @@
 															<option value="">-请选择-</option>
 														</select>
 													</TD>
+                                                    <TD>客户来源：</TD>
+                                                    <TD>
+                                                        <select id="cust_source" name="baseDictSource.dict_id">
+                                                            <option value="">-请选择-</option>
+                                                        </select>
+                                                    </TD>
 													<TD>客户所属行业：</TD>
 													<TD>
 														<select id="cust_industry" name="baseDictIndustry.dict_id">
